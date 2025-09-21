@@ -252,19 +252,28 @@
             }
             productsToRender.forEach((product, index) => {
                 const productCard = document.createElement('div');
-                productCard.className = "product-card rounded-lg shadow-md cursor-pointer relative overflow-hidden group fade-in";
-                productCard.style.transitionDelay = `${index * 50}ms`; // Efeito cascata
+                // A classe 'group' é usada pelo Tailwind para o efeito hover no desktop
+                productCard.className = "product-card rounded-lg shadow-md cursor-pointer overflow-hidden group fade-in flex flex-col";
+                productCard.style.transitionDelay = `${index * 50}ms`;
+                
+                // ****** A LÓGICA DO CARTÃO FOI ALTERADA AQUI ******
                 productCard.innerHTML = `
-                    <div class="aspect-square w-full overflow-hidden">
-                        <img src="${product.image || 'https://placehold.co/600x600/1c1c1c/d1d1d1?text=Classic+Gold'}" alt="${product.name}" class="w-full h-full object-cover product-image">
-                    </div>
-                    <div class="info-overlay absolute inset-0 bg-black/70 p-6 flex flex-col justify-end text-center">
-                        <div>
+                    <div class="relative w-full overflow-hidden">
+                        <div class="aspect-square">
+                            <img src="${product.image || 'https://placehold.co/600x600/1c1c1c/d1d1d1?text=Classic+Gold'}" alt="${product.name}" class="w-full h-full object-cover product-image">
+                        </div>
+                        <div class="hidden md:flex flex-col justify-end text-center absolute inset-0 bg-black/70 p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <h3 class="text-2xl font-serif text-gold mb-1">${product.name}</h3>
                             <p class="text-lg font-bold text-white">${product.price}</p>
                         </div>
                     </div>
+                    <div class="p-4 text-center md:hidden">
+                        <h3 class="text-xl font-serif text-gold">${product.name}</h3>
+                        <p class="text-base font-bold text-white mt-1">${product.price}</p>
+                    </div>
                 `;
+                // ****** FIM DA ALTERAÇÃO ******
+
                 productCard.onclick = () => showProductModal(product);
                 grid.appendChild(productCard);
             });
@@ -320,7 +329,6 @@
         }
 
         function copyProductLink(productId, element) {
-            const url = `${window.location.origin}${window.location.pathname}?produto=${productId}`;
             navigator.clipboard.writeText(url).then(() => {
                 const originalContent = element.innerHTML;
                 element.innerHTML = 'Link Copiado!';
