@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classic Gold - Ourivesaria de Excelência</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #d1d1d1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        .font-sans { font-family: 'Inter', sans-serif; }
+
+        .text-gold { color: #D4AF37; } /* Um tom de ouro mais vibrante */
+        .border-gold { border-color: #D4AF37; }
+        .bg-gold { background-color: #D4AF37; }
+
+        /* Animações e Transições */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Estilo do Cartão de Produto */
+        .product-card {
+            background-color: #1a1a1a;
+            border: 1px solid #252525;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .product-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.1);
+        }
+        .product-card .product-image {
+            transition: transform 0.4s ease;
+        }
+        .product-card:hover .product-image {
+            transform: scale(1.1);
+        }
+        .product-card .info-overlay {
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .product-card:hover .info-overlay {
+            opacity: 1;
+        }
+
+        /* Estilo do Modal */
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Estilo dos Filtros */
+        .filter-btn {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .filter-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #D4AF37;
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s ease;
+        }
+        .filter-btn.active, .filter-btn:hover {
+            color: #D4AF37;
+        }
+        .filter-btn.active::after {
+            transform: scaleX(1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="bg-black/60 backdrop-blur-lg sticky top-0 z-50 shadow-lg py-4">
+        <nav class="container mx-auto flex justify-between items-center px-6">
+            <a href="#" class="text-3xl font-serif text-gold tracking-widest" onclick="showPage('home')">CLASSIC GOLD</a>
+            
+            <button class="md:hidden text-white focus:outline-none" onclick="toggleMobileMenu()">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+
+            <ul class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wider uppercase">
+                <li><a href="#catalog-section" class="text-gray-300 hover:text-gold transition-colors duration-300" onclick="showPage('home')">Catálogo</a></li>
+                <li><a href="#" class="text-gray-300 hover:text-gold transition-colors duration-300" onclick="showPage('contact')">Contactos</a></li>
+            </ul>
+        </nav>
+        <div id="mobile-menu" class="md:hidden bg-black/90 hidden">
+            <ul class="flex flex-col items-center py-4 space-y-4">
+                <li><a href="#catalog-section" class="block py-2 text-gray-300 hover:text-gold font-medium" onclick="showPage('home'); toggleMobileMenu();">Catálogo</a></li>
+                <li><a href="#" class="block py-2 text-gray-300 hover:text-gold font-medium" onclick="showPage('contact'); toggleMobileMenu();">Contactos</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section id="home-page" class="page">
+            
+            <section class="h-[70vh] md:h-[90vh] flex items-center justify-center text-center bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1611652022417-a551be9e96e2?q=80&w=2574&auto=format&fit=crop');">
+                <div class="fade-in">
+                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif text-white tracking-wider leading-tight">Arte em Cada Detalhe</h1>
+                    <p class="text-lg md:text-xl text-gray-300 mt-4 mb-8 max-w-2xl mx-auto">Descubra coleções exclusivas onde o design intemporal encontra a mestria artesanal.</p>
+                    <a href="#catalog-section" class="bg-gold text-black font-bold uppercase tracking-widest py-3 px-8 rounded-full hover:bg-opacity-80 transition-all duration-300">Ver Coleção</a>
+                </div>
+            </section>
+
+            <section id="catalog-section" class="container mx-auto py-16 md:py-24 px-6">
+                <div class="text-center mb-12 fade-in">
+                    <h2 class="text-4xl md:text-5xl font-serif text-gold tracking-wider">Nosso Catálogo</h2>
+                    <p class="text-gray-400 mt-2">Peças selecionadas para momentos inesquecíveis.</p>
+                </div>
+                
+                <div class="flex justify-center flex-wrap gap-6 md:gap-10 mb-12 fade-in">
+                    <button class="filter-btn font-medium uppercase tracking-wider active" onclick="filterProducts('all', this)">Todos</button>
+                    <button class="filter-btn font-medium uppercase tracking-wider" onclick="filterProducts('Aneis', this)">Anéis</button>
+                    <button class="filter-btn font-medium uppercase tracking-wider" onclick="filterProducts('Colares', this)">Colares</button>
+                    <button class="filter-btn font-medium uppercase tracking-wider" onclick="filterProducts('Brincos', this)">Brincos</button>
+                    <button class="filter-btn font-medium uppercase tracking-wider" onclick="filterProducts('Mascotes', this)">Mascotes</button>
+                </div>
+
+                <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-10">
+                    </div>
+            </section>
+        </section>
+
+        <div id="product-modal-overlay" class="modal-overlay fixed inset-0 flex items-center justify-center p-4 hidden z-50">
+            <div id="product-modal" class="bg-[#1c1c1c] rounded-lg shadow-2xl overflow-hidden max-w-4xl w-full relative border border-gray-700">
+                <button onclick="closeModal()" class="absolute top-4 right-4 p-2 rounded-full bg-black/50 hover:bg-black transition-colors text-white z-10">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <div id="product-modal-content" class="flex flex-col md:flex-row text-gray-300">
+                    </div>
+            </div>
+        </div>
+
+        <section id="contact-page" class="page container mx-auto py-16 md:py-24 px-6 hidden">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-serif text-gold tracking-wider">Contacte-nos</h2>
+                <p class="text-gray-400 mt-2">Estamos disponíveis para ajudar.</p>
+            </div>
+            <div class="bg-[#1c1c1c] border border-gray-800 p-8 rounded-lg shadow-lg max-w-2xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div class="space-y-4">
+                        <p><strong class="text-gold font-sans">Email:</strong><br> classicgold.jewelry@email.com</p>
+                        <p><strong class="text-gold font-sans">Telefone:</strong><br> +351 912 345 678</p>
+                    </div>
+                    <div class="space-y-4">
+                        <p><strong class="text-gold font-sans">Morada:</strong><br> Rua da Ourivesaria, 10, Lisboa, Portugal</p>
+                        <p><strong class="text-gold font-sans">Horário:</strong><br> Segunda a Sexta, 9:00 - 18:00</p>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-serif mb-4 text-gold">Envie uma Mensagem</h3>
+                    <form class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-gray-400 font-medium text-sm mb-1">Nome</label>
+                            <input type="text" id="name" class="w-full mt-1 p-3 border border-gray-700 bg-gray-900 text-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-400 font-medium text-sm mb-1">Email</label>
+                            <input type="email" id="email" class="w-full mt-1 p-3 border border-gray-700 bg-gray-900 text-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-gray-400 font-medium text-sm mb-1">Mensagem</label>
+                            <textarea id="message" rows="4" class="w-full mt-1 p-3 border border-gray-700 bg-gray-900 text-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-gold text-black font-bold py-3 px-4 rounded-md hover:bg-opacity-80 transition-opacity uppercase tracking-wider">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black text-gray-500 text-center py-8 mt-16 border-t border-gray-800">
+        <p>&copy; 2024 Classic Gold. Todos os direitos reservados.</p>
+        <p class="text-sm mt-2">Desenhado por <a href="https://edmilsonmula.info" class="underline hover:text-gold" target="_blank">Edmilson Mula</a></p>
+    </footer>
+
+    <script>
+        const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyIRimmoVvyu9UbHIYy5WufWHOV7M5bu0wtnOiizDY9dhMz8XaiA7zGN6H9Z7f-zu7GUA/exec"; 
+
+        let currentPage = 'home';
+        const pages = ['home-page', 'contact-page'];
+        const allProducts = [];
+
+        // --- Funções de UI e Navegação ---
+        function showPage(pageId) {
+            pages.forEach(id => document.getElementById(id).classList.add('hidden'));
+            document.getElementById(pageId + '-page').classList.remove('hidden');
+            currentPage = pageId;
+            window.scrollTo(0, 0);
+        }
+        
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        // --- Funções do Catálogo de Produtos ---
+        async function fetchProducts() {
+            try {
+                const response = await fetch(GOOGLE_SHEET_API_URL);
+                if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+                const data = await response.json();
+                
+                if (Array.isArray(data)) {
+                    allProducts.push(...data);
+                    renderProducts(allProducts);
+                    setupScrollAnimations(); // Inicia as animações após renderizar
+                } else {
+                    throw new Error("Formato de dados da API inválido.");
+                }
+
+                // Verifica se há um produto específico na URL para abrir o modal
+                const urlParams = new URLSearchParams(window.location.search);
+                const productId = urlParams.get('produto');
+                if (productId) {
+                    const product = allProducts.find(p => p.id === productId);
+                    if (product) showProductModal(product);
+                }
+
+            } catch (error) {
+                console.error("Erro ao carregar produtos:", error);
+                document.getElementById('products-grid').innerHTML = `<p class="text-red-500 text-center col-span-full">Não foi possível carregar os produtos. Verifique o URL da API.</p>`;
+            }
+        }
+
+        function renderProducts(productsToRender) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = ''; // Limpa o grid antes de adicionar novos produtos
+            if (productsToRender.length === 0) {
+                grid.innerHTML = `<p class="text-gray-400 text-center col-span-full">Nenhum produto encontrado nesta categoria.</p>`;
+                return;
+            }
+            productsToRender.forEach((product, index) => {
+                const productCard = document.createElement('div');
+                productCard.className = "product-card rounded-lg shadow-md cursor-pointer relative overflow-hidden group fade-in";
+                productCard.style.transitionDelay = `${index * 50}ms`; // Efeito cascata
+                productCard.innerHTML = `
+                    <div class="aspect-square w-full overflow-hidden">
+                        <img src="${product.image || 'https://placehold.co/600x600/1c1c1c/d1d1d1?text=Classic+Gold'}" alt="${product.name}" class="w-full h-full object-cover product-image">
+                    </div>
+                    <div class="info-overlay absolute inset-0 bg-black/70 p-6 flex flex-col justify-end text-center">
+                        <div>
+                            <h3 class="text-2xl font-serif text-gold mb-1">${product.name}</h3>
+                            <p class="text-lg font-bold text-white">${product.price}</p>
+                        </div>
+                    </div>
+                `;
+                productCard.onclick = () => showProductModal(product);
+                grid.appendChild(productCard);
+            });
+            // Re-ativa o observer para as novas animações
+             setupScrollAnimations();
+        }
+
+        function filterProducts(category, element) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
+            renderProducts(filtered);
+        }
+
+        // --- Funções do Modal ---
+        function showProductModal(product) {
+            const modal = document.getElementById('product-modal-overlay');
+            const content = document.getElementById('product-modal-content');
+
+            content.innerHTML = `
+                <div class="md:w-1/2">
+                    <img src="${product.image || 'https://placehold.co/800x800/1c1c1c/d1d1d1?text=Classic+Gold'}" alt="${product.name}" class="w-full h-full object-cover">
+                </div>
+                <div class="md:w-1/2 p-8 flex flex-col justify-center">
+                    <div>
+                        <span class="text-sm uppercase tracking-widest text-gray-500">${product.category}</span>
+                        <h3 class="text-4xl font-serif text-gold my-2">${product.name}</h3>
+                        <p class="text-2xl font-bold mb-4">${product.price}</p>
+                        <p class="text-gray-400 mb-6 leading-relaxed">${product.description}</p>
+                    </div>
+                    <div class="mt-auto">
+                        <button onclick="copyProductLink('${product.id}', this)" class="w-full bg-gold text-black font-bold py-3 px-6 rounded-md hover:bg-opacity-80 transition-all flex items-center justify-center uppercase tracking-wider">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12s-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path></svg>
+                            Compartilhar
+                        </button>
+                    </div>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Impede o scroll do fundo
+        }
+
+        function closeModal() {
+            document.getElementById('product-modal-overlay').classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Restaura o scroll
+            // Limpa o parâmetro da URL
+            if (history.pushState) {
+                const url = new URL(window.location);
+                url.searchParams.delete('produto');
+                history.pushState({path:url.href}, '', url.href);
+            }
+        }
+
+        function copyProductLink(productId, element) {
+            const url = `${window.location.origin}${window.location.pathname}?produto=${productId}`;
+            navigator.clipboard.writeText(url).then(() => {
+                const originalContent = element.innerHTML;
+                element.innerHTML = 'Link Copiado!';
+                element.disabled = true;
+                setTimeout(() => {
+                    element.innerHTML = originalContent;
+                    element.disabled = false;
+                }, 2000);
+            });
+        }
+        
+        // --- Animações de Scroll ---
+        function setupScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        }
+
+        // --- Handlers de Eventos ---
+        window.onload = function() {
+            showPage('home');
+            fetchProducts();
+            setupScrollAnimations();
+        };
+
+        window.onpopstate = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (!urlParams.get('produto')) {
+                closeModal();
+            }
+        };
+
+    </script>
+</body>
+</html>
